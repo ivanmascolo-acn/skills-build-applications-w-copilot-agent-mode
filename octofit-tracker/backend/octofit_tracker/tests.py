@@ -2,26 +2,26 @@ from django.test import TestCase
 from .models import User, Team, Activity, Leaderboard, Workout
 
 class UserModelTest(TestCase):
-    def test_create_user(self):
-        user = User.objects.create(email='test@example.com', name='Test User', team='marvel')
-        self.assertEqual(user.email, 'test@example.com')
+    def test_user_creation(self):
+        user = User.objects.create_user(username='test', email='test@test.com', password='pass')
+        self.assertEqual(user.email, 'test@test.com')
 
 class TeamModelTest(TestCase):
-    def test_create_team(self):
-        team = Team.objects.create(name='marvel', members=['Test User'])
-        self.assertEqual(team.name, 'marvel')
+    def test_team_creation(self):
+        team = Team.objects.create(name='TestTeam')
+        self.assertEqual(team.name, 'TestTeam')
 
 class ActivityModelTest(TestCase):
-    def test_create_activity(self):
-        activity = Activity.objects.create(user='Test User', type='run', duration=30, date='2026-03-17')
-        self.assertEqual(activity.type, 'run')
+    def test_activity_creation(self):
+        activity = Activity.objects.create(name='Run', user='test', team='TestTeam')
+        self.assertEqual(activity.name, 'Run')
 
 class LeaderboardModelTest(TestCase):
-    def test_create_leaderboard(self):
-        lb = Leaderboard.objects.create(team='marvel', points=100)
-        self.assertEqual(lb.team, 'marvel')
+    def test_leaderboard_creation(self):
+        leaderboard = Leaderboard.objects.create(team='TestTeam', points=10)
+        self.assertEqual(leaderboard.points, 10)
 
 class WorkoutModelTest(TestCase):
-    def test_create_workout(self):
-        workout = Workout.objects.create(name='Pushups', description='Do 20 pushups', suggested_for='marvel')
+    def test_workout_creation(self):
+        workout = Workout.objects.create(name='Pushups', description='Do 20 pushups')
         self.assertEqual(workout.name, 'Pushups')

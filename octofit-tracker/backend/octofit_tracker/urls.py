@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from .views import UserViewSet, TeamViewSet, ActivityViewSet, LeaderboardViewSet, WorkoutViewSet
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -34,11 +34,11 @@ def api_root(request):
         'teams': '/teams/',
         'activities': '/activities/',
         'leaderboard': '/leaderboard/',
-        'workouts': '/workouts/'
+        'workouts': '/workouts/',
     })
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', api_root),
-    path('api/', include(router.urls)),
+    path('', api_root, name='api_root'),
+    path('', include(router.urls)),
 ]

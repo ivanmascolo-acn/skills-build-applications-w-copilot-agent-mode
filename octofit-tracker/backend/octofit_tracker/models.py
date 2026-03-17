@@ -1,35 +1,41 @@
 from djongo import models
+from django.contrib.auth.models import AbstractUser
 
-class User(models.Model):
+class User(AbstractUser):
     email = models.EmailField(unique=True)
-    name = models.CharField(max_length=100)
-    team = models.CharField(max_length=50)
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='octofittracker_user_set',
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='octofittracker_user_set',
+        blank=True
+    )
     class Meta:
-        db_table = 'users'
+        app_label = 'octofit_tracker'
 
 class Team(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    members = models.JSONField(default=list)
+    name = models.CharField(max_length=100, unique=True)
     class Meta:
-        db_table = 'teams'
+        app_label = 'octofit_tracker'
 
 class Activity(models.Model):
+    name = models.CharField(max_length=100)
     user = models.CharField(max_length=100)
-    type = models.CharField(max_length=50)
-    duration = models.IntegerField()
-    date = models.DateField()
+    team = models.CharField(max_length=100)
     class Meta:
-        db_table = 'activities'
+        app_label = 'octofit_tracker'
 
 class Leaderboard(models.Model):
-    team = models.CharField(max_length=50)
+    team = models.CharField(max_length=100)
     points = models.IntegerField()
     class Meta:
-        db_table = 'leaderboard'
+        app_label = 'octofit_tracker'
 
 class Workout(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    suggested_for = models.CharField(max_length=50)
     class Meta:
-        db_table = 'workouts'
+        app_label = 'octofit_tracker'
